@@ -3,8 +3,52 @@ name: orchestrator
 description: "Use when: starting a new task and unsure which agent to use, decomposing a complex multi-step request, or needing a routing decision. Routes tasks to the right specialist agent."
 model: gpt-4.1
 tools:
-  - codebase
-  - search
+  - vscode/getProjectSetupInfo
+  - vscode/installExtension
+  - vscode/memory
+  - vscode/newWorkspace
+  - vscode/runCommand
+  - vscode/vscodeAPI
+  - vscode/extensions
+  - vscode/askQuestions
+  - execute/runNotebookCell
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - execute/awaitTerminal
+  - execute/killTerminal
+  - execute/createAndRunTask
+  - execute/runInTerminal
+  - execute/runTests
+  - read/getNotebookSummary
+  - read/problems
+  - read/readFile
+  - read/terminalSelection
+  - read/terminalLastCommand
+  - agent/runSubagent
+  - edit/createDirectory
+  - edit/createFile
+  - edit/createJupyterNotebook
+  - edit/editFiles
+  - edit/editNotebook
+  - edit/rename
+  - search/changes
+  - search/codebase
+  - search/fileSearch
+  - search/listDirectory
+  - search/searchResults
+  - search/textSearch
+  - search/usages
+  - web/fetch
+  - web/githubRepo
+  - browser/openBrowserPage
+  - github.vscode-pull-request-github/issue_fetch
+  - github.vscode-pull-request-github/labels_fetch
+  - github.vscode-pull-request-github/notification_fetch
+  - github.vscode-pull-request-github/doSearch
+  - github.vscode-pull-request-github/activePullRequest
+  - github.vscode-pull-request-github/pullRequestStatusChecks
+  - github.vscode-pull-request-github/openPullRequest
+  - todo
 ---
 
 # Orchestrator Agent

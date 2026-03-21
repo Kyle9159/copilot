@@ -3,9 +3,56 @@ name: options-analyst
 description: "Use when: analyzing options trades, extending csp_options_app, working with Greeks, designing CSP/CC/LEAPS strategies, reviewing P&L, working with Schwab API, or evaluating market conditions for the wheel strategy."
 model: gemini-3-pro
 tools:
-  - codebase
-  - search
-  - editFiles
+  - vscode/getProjectSetupInfo
+  - vscode/installExtension
+  - vscode/memory
+  - vscode/newWorkspace
+  - vscode/runCommand
+  - vscode/vscodeAPI
+  - vscode/extensions
+  - vscode/askQuestions
+  - execute/runNotebookCell
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - execute/awaitTerminal
+  - execute/killTerminal
+  - execute/createAndRunTask
+  - execute/runInTerminal
+  - execute/runTests
+  - read/getNotebookSummary
+  - read/problems
+  - read/readFile
+  - read/terminalSelection
+  - read/terminalLastCommand
+  - agent/runSubagent
+  - edit/createDirectory
+  - edit/createFile
+  - edit/createJupyterNotebook
+  - edit/editFiles
+  - edit/editNotebook
+  - edit/rename
+  - search/changes
+  - search/codebase
+  - search/fileSearch
+  - search/listDirectory
+  - search/searchResults
+  - search/textSearch
+  - search/usages
+  - web/fetch
+  - web/githubRepo
+  - browser/openBrowserPage
+  - github.vscode-pull-request-github/issue_fetch
+  - github.vscode-pull-request-github/labels_fetch
+  - github.vscode-pull-request-github/notification_fetch
+  - github.vscode-pull-request-github/doSearch
+  - github.vscode-pull-request-github/activePullRequest
+  - github.vscode-pull-request-github/pullRequestStatusChecks
+  - github.vscode-pull-request-github/openPullRequest
+  - ms-python.python/getPythonEnvironmentInfo
+  - ms-python.python/getPythonExecutableCommand
+  - ms-python.python/installPythonPackage
+  - ms-python.python/configurePythonEnvironment
+  - todo
 ---
 
 # Options Analyst Agent
