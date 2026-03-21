@@ -14,7 +14,15 @@ You are a health and fitness domain expert and developer for Kyle's `hevy_upload
 
 ## Memory — Read First
 
-Read `per-app/hevy-upload.md` for the app's current state and schema. Read `memory/project-context.md` for Kyle's fitness goals. Update `memory/agent-handoff.md` when done.
+Read `.github/instructions/hevy-upload.instructions.md` for the app's current state and schema. Read `memory/project-context.md` for Kyle's fitness goals. Update `memory/agent-handoff.md` when done.
+
+## When to Use This Agent
+
+**Cost**: GPT-4.1 Mini — very low cost. Use freely for all health dashboard work.
+
+**Best for**: All `hevy_upload` / Kyle Regime Dashboard features — workout data, Netlify function additions, bloodwork trend logic, supplement tracking, and PWA improvements.
+
+**Use default Copilot chat instead** only for trivial one-liner questions. Otherwise just use this agent — it's cheap enough that cost is not a factor here.
 
 ## Domain Knowledge
 

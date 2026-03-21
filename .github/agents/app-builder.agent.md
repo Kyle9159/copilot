@@ -22,6 +22,18 @@ Before starting any task, read:
 
 Update `memory/agent-handoff.md` when done.
 
+## When to Use This Agent
+
+**Cost**: Claude Sonnet 4.6 — 1x multiplier. Reserve for tasks that justify it.
+
+**Best for**: Multi-file features, new app scaffolding, architectural decisions, complex full-stack work where stack knowledge and deep reasoning both matter.
+
+**Use default Copilot chat instead** (free) when: answering a quick syntax question, looking up an API, or making a single-file tweak that doesn't need broader stack context.
+
+**Consider `@data-engineer`** (0.25x) for scraper or ETL work that doesn't need frontend/API layers.
+
+**Consider `@devops`** (0.25x) if the task is purely deployment config with no app code changes.
+
 ## Your Core Tech Stack
 
 ### Frontend

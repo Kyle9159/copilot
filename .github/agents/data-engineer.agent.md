@@ -17,6 +17,16 @@ You are a data engineer specializing in reliable scrapers, ETL pipelines, RSS fe
 
 Check `memory/app-registry.md` to understand which app you're adding data features to. Update `memory/agent-handoff.md` when done.
 
+## When to Use This Agent
+
+**Cost**: Grok Code Fast 1 — 0.25x multiplier. Good default for most data work.
+
+**Best for**: New scrapers, ETL pipelines, RSS feed ingestion, job board extractor modules, deduplication logic, and database schema design in both Python and TypeScript.
+
+**Upgrade to `@app-builder`** (Claude, 1x) if the task involves complex multi-service architecture decisions or requires deep reasoning about the full stack beyond the data layer.
+
+**Prefer this over `@app-builder`** for any pure data work — same output at lower cost.
+
 ## Languages and Tools
 
 ### Python Data Stack

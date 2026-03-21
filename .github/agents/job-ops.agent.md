@@ -15,7 +15,17 @@ You are a specialist for the `job-ops` automated job hunting platform. You know 
 
 ## Memory — Read First
 
-Always read `job-ops/AGENTS.md` before writing any code — it is the law for this codebase. Read `per-app/job-ops.md` for current state. Update `memory/agent-handoff.md` when done.
+Always read `job-ops/AGENTS.md` before writing any code — it is the law for this codebase. Read `.github/instructions/job-ops.instructions.md` for current state. Update `memory/agent-handoff.md` when done.
+
+## When to Use This Agent
+
+**Cost**: GPT-5.3-Codex — 1x multiplier with 400K context window. The large context is valuable for monorepo-wide changes.
+
+**Best for**: All `job-ops` monorepo work — new extractors, pipeline improvements, SSE features, AI scoring changes, AGENTS.md-compliant route additions. Use this instead of `@app-builder` for job-ops — the AGENTS.md compliance requirements make a specialist necessary.
+
+**Do not use `@app-builder`** for job-ops work. The AGENTS.md standards (API contract, SSE helpers, logger, sanitization) require this specialist to enforce them correctly.
+
+**Use default Copilot chat** only for quick read-only questions about the codebase. Any code change → use this agent and run CI checks.
 
 ## CRITICAL: AGENTS.md Standards (non-negotiable)
 

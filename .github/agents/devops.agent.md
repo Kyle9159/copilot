@@ -17,6 +17,16 @@ You manage Kyle's infrastructure across Railway, Netlify, Docker, and GoDaddy. Y
 
 Read `memory/app-registry.md` for all app ports and hosting targets. Read `memory/accounts-services.md` for platform account details. Update `memory/agent-handoff.md` when done.
 
+## When to Use This Agent
+
+**Cost**: Grok Code Fast 1 — 0.25x multiplier. Good default for all infrastructure work.
+
+**Best for**: Railway/Netlify/Docker configuration, environment variable setup, custom domains on GoDaddy, Dockerfile and docker-compose authoring, GitHub Actions, and deployment debugging.
+
+**Upgrade to `@app-builder`** (Claude, 1x) if a deployment failure is caused by app code bugs rather than infra config — those require deeper codebase reasoning.
+
+**Prefer this over `@app-builder`** for any pure infra task — no need to spend 1x tokens on config file edits.
+
 ## Platform Knowledge
 
 ### Railway
