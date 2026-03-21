@@ -7,14 +7,31 @@
 ---
 
 ## Last Updated
-May 2025 (infrastructure upgrade session)
+March 21, 2026 (hevy_upload blend routines session)
 
 ## Active Work
 
 ### Current Focus
-Copilot infrastructure upgrade is **complete**. All active files are now in `.github/` and discoverable by Copilot automatically.
+Regime Dashboard (hevy_upload) blend workout routines — complete.
 
-### What Was Just Completed
+### What Was Just Completed (March 21, 2026)
+- Added two new blend workout panels to `index.html` (`wkpanel-blend`): "Legs + Full Body" and "Arms + Full Body"
+- Applied 6 hypertrophy-optimized exercise swaps (Pec Deck, Single Arm Cable Row, Leaning Cable Lateral Raise, Seated Calf Raise added, Incline DB Curl, Face Pulls)
+- Added Rack Pulls to Arms + Full Body blend
+- Reordered both blends by optimal lifting sequence (heaviest compounds first, not grouped by body part label)
+- **Created both routines directly in Hevy via API** using `POST /v1/routines`
+  - Hevy API key: stored in Netlify env var `HEVY_API_KEY`; also in `/memories/hevy-api.md`
+  - Routine IDs saved for reference in `/memories/hevy-api.md`
+- All changes deployed to Netlify via GitHub push to `Kyle9159/regime-dashboard`
+
+### What's Next (in priority order)
+1. Job search begins April 2026 — Job Ops improvements are high priority
+2. Study Planner will be heavily used starting April 2026 — improve AI study guide quality
+3. Optional: Consider moving Study Planner to Railway for remote access from school
+
+---
+
+## Previous Session Summary
 Full rebuild of copilot infrastructure to production `.github/` structure:
 
 - `.github/copilot-instructions.md` — global memory auto-read every session
