@@ -1,0 +1,14 @@
+# Personal / sensitive memory files
+memory/accounts-services.md
+memory/project-context.md
+memory/app-registry.md
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
