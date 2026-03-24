@@ -7,27 +7,53 @@
 ---
 
 ## Last Updated
-March 21, 2026 (hevy_upload blend routines session)
+March 24, 2026 (csp_options_app major feature session)
 
 ## Active Work
 
 ### Current Focus
-Regime Dashboard (hevy_upload) blend workout routines — complete.
+CSP Options App — all items below are complete and pushed to `Kyle9159/csp_options_app` on `main`.
 
-### What Was Just Completed (March 21, 2026)
-- Added two new blend workout panels to `index.html` (`wkpanel-blend`): "Legs + Full Body" and "Arms + Full Body"
-- Applied 6 hypertrophy-optimized exercise swaps (Pec Deck, Single Arm Cable Row, Leaning Cable Lateral Raise, Seated Calf Raise added, Incline DB Curl, Face Pulls)
-- Added Rack Pulls to Arms + Full Body blend
-- Reordered both blends by optimal lifting sequence (heaviest compounds first, not grouped by body part label)
-- **Created both routines directly in Hevy via API** using `POST /v1/routines`
-  - Hevy API key: stored in Netlify env var `HEVY_API_KEY`; also in `/memories/hevy-api.md`
-  - Routine IDs saved for reference in `/memories/hevy-api.md`
-- All changes deployed to Netlify via GitHub push to `Kyle9159/regime-dashboard`
+### What Was Just Completed (March 24, 2026)
+
+#### Open CSPs tab — Schwab API upgrade
+- `/api/open_csps` now uses **`_get_schwab_csp_positions()`** as primary source (reads live short PUT positions directly from Schwab account via `get_account(hash, fields='positions')`)
+- Falls back to Google Sheet + live stock quote enrichment if Schwab returns empty
+- New helper `_parse_schwab_occ_symbol()` decodes 21-char OCC format (`AAPL  260319P00150000`) → symbol/expiration/strike
+- P&L computed from `averagePrice` (entry) vs `marketValue` (current), no extra quote API round-trips
+- Response now includes `data_source: 'schwab'|'sheet'|'none'`
+
+#### Analytics tab — fully dynamic (was Jinja2 static)
+- Three new API endpoints:
+  - `GET /api/analytics/summary` → `get_trade_stats()` from `trade_outcome_tracker.py`, augments `open_count` with live Schwab position count
+  - `GET /api/analytics/history?limit=50` → `get_recent_trades()` mapped to `{Symbol, Strike, Entry Date, Exit Date, Days Held, Entry Premium, Exit Premium, Net Profit $, ROI %, Win/Loss}`
+  - `GET /api/analytics/open` → `_get_schwab_csp_positions()` for live position table
+- All three Jinja2 blocks in Analytics Performance sub-tab replaced with `<div id="analytics-*-content">` placeholders
+- `loadAnalytics()` JS function + `_loadAnalyticsSummary()`, `_loadAnalyticsOpen()`, `_loadAnalyticsHistory()` helpers added
+- Auto-fires when user opens Analytics tab (`openTab('analytics')`) or clicks Performance sub-tab
+
+#### Scanner tier badges
+- Tier system (T1/T2/T3) was already in `simple_options_scanner.py` but **never displayed**
+- Now shown as colored pill badges:
+  - 🏆 Tier 1 = green — blue chips, ETFs, mega-caps you'd be happy holding if assigned
+  - ⭐ Tier 2 = blue — quality growth, higher vol but institutional backing
+  - ⚠️ Tier 3 = orange — higher risk, only scanned in STRONG_BULL regime
+- Appears on: Top-10 Grok ranked tiles (compact `T1/T2/T3` badge) and main scanner grid tile headers (full `Tier 1/2/3` pill)
+
+#### Earlier in same session (confirmed pushed)
+- `trade_outcome_tracker.py` — SQLite trade outcome logger at `cache_files/trade_outcomes.db` with Schwab order auto-sync (4hr, market hours)
+- `_get_schwab_csp_positions()` added to `dashboard_server.py` (standalone module-level helper, not inside route)
+- DTE ranges tightened: NEUTRAL 60→45, CAUTIOUS 60→45, BEARISH 60→50
+- `/grok/market_pulse` route added (fixed "unavailable" tile)
+- Clear Cache button + `/api/clear_cache` route (single copy fixed)
+- Mixed content / stale HTML fixed: all JS fetch calls use relative paths, `trading_dashboard.html` auto-regens 5s after server startup via `threading.Timer`
+- All 8 P0-P3 scanner strategy improvements (tier cleanup, OTM buffer regime-dependent, earnings hard-block, improved_put_score formula, Grok safety-first prompt, filter cutoff 80, VIX term structure, regime_key param)
 
 ### What's Next (in priority order)
-1. Job search begins April 2026 — Job Ops improvements are high priority
-2. Study Planner will be heavily used starting April 2026 — improve AI study guide quality
-3. Optional: Consider moving Study Planner to Railway for remote access from school
+1. **Job search begins April 2026** — Job Ops improvements are high priority
+2. **Study Planner** will be heavily used starting April 2026 — improve AI study guide quality
+3. **CSP Options App** — Analytics will populate once Schwab sync runs and `trade_outcomes.db` has real closed-trade data; may need manual seeding if no BTC orders exist yet
+4. Optional: Consider moving Study Planner to Railway for remote access from school
 
 ---
 
@@ -55,6 +81,7 @@ Old folders (`agents/`, `skills/`, `per-app/`, `prompts/`) left in place as refe
 - [ ] Should `.github/copilot-instructions.md` files be added to each repo? (Pro: Copilot auto-reads them; Con: scattered context)
 - [ ] Should Study Planner move to Railway for remote access from school?
 - [ ] Any new job boards to add to Job Ops as job search begins in April 2026?
+- [ ] CSP Analytics history tab will be empty until `trade_outcomes.db` has real data — may want a manual CSV import or seed script from Google Sheet Trade_History
 
 ---
 
