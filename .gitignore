@@ -1,3 +1,7 @@
+# Dependencies
+node_modules/
+package-lock.json
+
 # Personal / sensitive memory files
 memory/accounts-services.md
 memory/project-context.md
