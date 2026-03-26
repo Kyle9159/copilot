@@ -1,5 +1,5 @@
 ---
-mode: ask
+agent: ask
 description: Start an academic paper, technical document, or study guide draft
 ---
 

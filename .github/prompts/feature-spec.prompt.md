@@ -1,5 +1,5 @@
 ---
-mode: ask
+agent: ask
 description: Spec out a new feature before building it — clarify scope, approach, and risks
 ---
 

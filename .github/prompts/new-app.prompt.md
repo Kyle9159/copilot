@@ -1,5 +1,5 @@
 ---
-mode: ask
+agent: ask
 description: Bootstrap a new full-stack app in Kyle's exact tech stack
 ---
 

@@ -1,5 +1,5 @@
 ---
-mode: ask
+agent: ask
 description: Structured debugging flow for any app
 ---
 

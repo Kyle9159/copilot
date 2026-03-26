@@ -7,27 +7,101 @@
 ---
 
 ## Last Updated
-March 24, 2026 (csp_options_app major feature session)
+March 26, 2026 (csp_options_app Phase 3 complete)
 
 ## Active Work
 
 ### Current Focus
-CSP Options App — all items below are complete and pushed to `Kyle9159/csp_options_app` on `main`.
+csp_options_app improvements — Phases 1, 2, and 3 all complete. No active work in flight.
 
-### What Was Just Completed (March 24, 2026)
+### What Was Just Completed (March 26, 2026)
 
-#### Open CSPs tab — Schwab API upgrade
-- `/api/open_csps` now uses **`_get_schwab_csp_positions()`** as primary source (reads live short PUT positions directly from Schwab account via `get_account(hash, fields='positions')`)
-- Falls back to Google Sheet + live stock quote enrichment if Schwab returns empty
-- New helper `_parse_schwab_occ_symbol()` decodes 21-char OCC format (`AAPL  260319P00150000`) → symbol/expiration/strike
-- P&L computed from `averagePrice` (entry) vs `marketValue` (current), no extra quote API round-trips
-- Response now includes `data_source: 'schwab'|'sheet'|'none'`
+#### csp_options_app — Phase 3 complete ✅
 
-#### Analytics tab — fully dynamic (was Jinja2 static)
-- Three new API endpoints:
-  - `GET /api/analytics/summary` → `get_trade_stats()` from `trade_outcome_tracker.py`, augments `open_count` with live Schwab position count
-  - `GET /api/analytics/history?limit=50` → `get_recent_trades()` mapped to `{Symbol, Strike, Entry Date, Exit Date, Days Held, Entry Premium, Exit Premium, Net Profit $, ROI %, Win/Loss}`
-  - `GET /api/analytics/open` → `_get_schwab_csp_positions()` for live position table
+**Phase 1** (9 steps) — Telegram centralization, JSON batch scoring, gspread elimination, CC bot fixes, SQLite Greek columns
+
+**Phase 2** (5 steps) — Sector heatmap tile + API, earnings/roll badges, token cost card, regime timeline widget
+
+**Phase 3** (5 steps):
+- **Step 15** — Two-pass Grok scoring: FAST on all 100, then MODEL_MID re-scores top 20; `mid_scored: True` flag set
+- **Step 16** — `get_current_regime()` now returns `{"regime": str, "vix_ratio": float}`; `improved_put_score()` gets `vix_term_mult` (0.93× backwardation, 1.08× contango); wired into both sort calls
+- **Step 17** — `_calculate_short_put_targets()` takes `regime_key` param; stop-loss buffer scales 1.5%→4% by regime; `/api/exit_targets` route fixed (wrong arg names, attribute→dict access, regime passed in)
+- **Step 18** — CC bot `_CC_REGIME` dict was already complete from Phase 1; no-op
+- **Step 19** — `/api/position_size` route fixed: correct param names (`account_balance`, `underlying_price`), dict key access, correlation-adjusted sizing (same-sector ≥2 → halve contracts + warning)
+
+All files syntax-checked clean.
+
+### Next Steps (Future Sessions)
+- Phase 4 / Phase 5 were not documented before session summarization — original list is lost
+- Good stopping point; can pick up new features as needed
+- `hevy_upload`: committed and pushed manifest rename fix (`Regime` -> `Regiment`) to `main`
+- `Study_Planner`: committed and pushed Vite port update (`5173` -> `5175`) to `main`
+- `where_should_i_move`: committed and pushed large feature set to `main` (auth routes/pages, dashboard, AI city summaries, map heatmap API/UI, robots/sitemap, SEO/meta updates)
+- `job-ops`: detected untracked sensitive cookie debug artifacts under `orchestrator/storage/...`; added `orchestrator/storage/` to `.gitignore` and committed locally
+- `job-ops` push failed with GitHub permission error: `403 Permission to DaKheera47/job-ops.git denied to Kyle9159`
+- `language_learner`: initialized local git repo, connected `origin` to `https://github.com/Kyle9159/language_learner.git`, and pushed initial `main`
+- `job-ops`: local `main` now tracks `kyle/main`; clean PR branch `chore/ignore-orchestrator-storage` created from `origin/main`, cherry-picked with only the ignore-rule commit, and pushed to fork
+- `language_learner`: added and pushed first-release `README.md` with setup, env vars, scripts, architecture, and verification steps
+
+#### Current Git Status Snapshot
+- `hevy_upload`: clean, synced with `origin/main`
+- `Study_Planner`: clean, synced with `origin/main`
+- `where_should_i_move`: clean, synced with `origin/main`
+- `language_learner`: clean, synced with `origin/main`
+- `job-ops`: `main` tracks `kyle/main`; PR-ready branch `chore/ignore-orchestrator-storage` tracks `kyle/chore/ignore-orchestrator-storage`
+
+### What Was Just Completed (March 25, 2026)
+
+#### Danish Language Learner — Production ready ✅
+#### Language Learner — Production ready ✅
+- **All server + client code complete** with zero TypeScript errors
+- **Architecture**: Vite+React19 client (port 5176) + Express+SQLite server (port 3002)
+- **Repo rename**: `/Users/kylehansen/repos/danish_language_learner` → `/Users/kylehansen/repos/language_learner`
+- **App Launcher update**: entry renamed to `Language Learner`, id updated to `language-learner`, path updated to new repo folder
+- **Fixed this session**:
+  - `server/index.ts`: Changed `import { runMigrations }` → `import './db/migrate'` (side-effect)
+  - `server/api/vocabulary.ts`: Fixed `sql\`correct_count + 1\`` (was using column reference instead of SQL template)
+  - `server/api/vocabulary.ts`: Fixed event type `totalFlashcardsReviewed` (was `totalReviewed`)
+  - `server/api/profile.ts`: Removed unused imports (`and`, `count`, `userLevel`); fixed `vocabularyProgress.stage` → `vocabularyProgress.srsStage`
+  - `server/api/lessons.ts`: Cleaned up unused imports; added `or` import
+  - `server/api/ai.ts`: Added level→difficulty mapping (`A0/A1→easy, A2→medium, B1→hard`) for `generateQuiz`
+  - `server/services/gamification.ts`: Removed unused `LEVEL_ORDER`, `vocabularyProgress` imports
+  - `client/src/lib/api.ts`: Replaced all inline `import('../../shared/types')` with static imports via `@shared/*` alias
+  - `client/src/components/ui/Badge.tsx`: Fixed `HTMLAttributes<'span'>` → `HTMLAttributes<HTMLSpanElement>`
+  - `client/src/components/features/LessonCard.tsx`: Changed prop type `Lesson` → `LessonWithProgress`
+  - `client/src/components/features/ExerciseRenderer.tsx`: Removed unused `AudioButton` import
+  - `client/src/pages/Curriculum.tsx`: Changed `Lesson[]` → `LessonWithProgress[]`
+  - `client/src/pages/Dashboard.tsx`: Removed unused `Button`, `UserLevel` imports; typed map callbacks
+  - `client/src/pages/Conversation.tsx`: Removed unused `Badge` import
+  - `client/src/pages/Lesson.tsx`: Removed unused `cn` import; simplified `finishExercises`; cast quiz `Exercise`; added `lesson!` assertions
+  - `client/src/hooks/queries/useProfile.ts`: Removed unused type imports
+  - `client/src/components/Layout.tsx`: Removed unused `useLocation` import
+  - `vite.config.ts` → `vite.config.mts` (renamed to force ESM, fixes `@tailwindcss/vite` ESM-only error)
+  - `tsconfig.json` + `vite.config.mts`: Added `@shared/*` alias pointing to `./shared`
+  - DB seeded: 233 words, 20 lessons, 18 achievements
+  - App-launcher registered: port 5176, `npm run dev`
+
+### Current State
+- ✅ `http://localhost:3002/api/health` — server live
+- ✅ `http://localhost:5176` — Vite client serving (200)
+- ✅ `tsc --noEmit` clean (both client and server tsconfigs)
+- ✅ `tsc --noEmit -p tsconfig.server.json` clean
+- ✅ DB seeded with real data
+- App registered in app-launcher
+
+### Next Steps (Future Sessions)
+1. **Test in browser** — open `http://localhost:5176`, walk through each page
+2. **Verify flashcard SRS flow** — grade words, check `next_review_date` updates
+3. **Test AI features** — requires `.env` with `XAI_API_KEY` and `OPENAI_API_KEY`
+4. **Conversation SSE** — test streaming works end-to-end
+5. Potential: add `.env` setup instructions to README
+
+### Key Files
+- `/Users/kylehansen/repos/language_learner/`
+- `server/index.ts` → port 3002
+- `client/src/App.tsx` → React Router
+- `shared/types.ts` → canonical types
+- `data/db.sqlite` → live database
 - All three Jinja2 blocks in Analytics Performance sub-tab replaced with `<div id="analytics-*-content">` placeholders
 - `loadAnalytics()` JS function + `_loadAnalyticsSummary()`, `_loadAnalyticsOpen()`, `_loadAnalyticsHistory()` helpers added
 - Auto-fires when user opens Analytics tab (`openTab('analytics')`) or clicks Performance sub-tab

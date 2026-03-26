@@ -1,5 +1,5 @@
 ---
-mode: ask
+agent: ask
 description: Thorough code review before merging a feature or finishing a session
 ---
 
