@@ -7,12 +7,25 @@
 ---
 
 ## Last Updated
-March 26, 2026 (csp_options_app Phase 3 complete)
+March 30, 2026 (csp_options_app backtesting shipped; Schwab reauth reminder fixed)
 
 ## Active Work
 
 ### Current Focus
-csp_options_app improvements — Phases 1, 2, and 3 all complete. No active work in flight.
+csp_options_app Schwab OAuth renewal flow cleanup. Backtesting/recommendation analytics are implemented and pushed; latest local fix updates the Telegram reauth link to the real dashboard HTTPS URL on port 5101 and clarifies that the auth link must be opened on the same Mac running the dashboard.
+
+### What Was Just Completed
+- Built recommendation backtesting for `csp_options_app` with enriched scanner logging, SQLite snapshot/outcome tracking, and a standalone analysis page plus embedded Analytics sub-tab.
+- Expanded recommendation persistence to include Greeks, IV rank, liquidity, sector, scan time/day, and richer rank metadata.
+- Changed daily recommendation retention from naive per-scan top picks to a true deduped daily Top 10 across same-day scans.
+- Pushed the analytics/backtesting feature set to `main` as commit `eceafda`.
+- Fixed local OAuth reminder messaging in `csp_options_app/dashboard_server.py` so Telegram now points to `https://127.0.0.1:5101/auth/start` instead of the stale `5000` port and warns that the flow must run on the same machine.
+- Reworked `/auth/start` so it redirects the current browser tab directly to Schwab instead of relying on a backend-side browser launch, while the app waits for the local `https://127.0.0.1:8182` callback in the background.
+
+### Next Steps
+- Restart the `csp_options_app` dashboard so the updated Telegram link and startup URL are live.
+- Trigger a fresh token-expiry reminder or manually open `https://127.0.0.1:5101/auth/start` on the local Mac to verify the new redirect-based auth flow end-to-end.
+- If reauth still fails after opening the correct local link, re-check the Schwab app registration and confirm the redirect URI remains exactly `https://127.0.0.1:8182`.
 
 ### What Was Just Completed (March 26, 2026)
 

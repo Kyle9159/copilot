@@ -2,8 +2,53 @@
 name: health-fitness
 description: "Use when: working on hevy_upload dashboard, adding workout tracking features, analyzing bloodwork trends, building supplement tracking, designing Netlify functions for health data, or improving the Kyle Regime Dashboard PWA."
 model: gpt-4.1-mini
-tools:vscode/getProjectSetupInfo, vscode/installExtension, vscode/memory, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/extensions, vscode/askQuestions, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/createAndRunTask, execute/runInTerminal, execute/runTests, read/getNotebookSummary, read/problems, read/readFile, read/terminalSelection, read/terminalLastCommand, agent/runSubagent, edit/createDirectory, edit/createFile, edit/createJupyterNotebook, edit/editFiles, edit/editNotebook, edit/rename, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, web/fetch, web/githubRepo, browser/openBrowserPage, github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, github.vscode-pull-request-github/openPullRequest, todo
-
+tools:
+  - vscode/getProjectSetupInfo
+  - vscode/installExtension
+  - vscode/memory
+  - vscode/newWorkspace
+  - vscode/runCommand
+  - vscode/vscodeAPI
+  - vscode/extensions
+  - vscode/askQuestions
+  - execute/runNotebookCell
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - execute/awaitTerminal
+  - execute/killTerminal
+  - execute/createAndRunTask
+  - execute/runInTerminal
+  - execute/runTests
+  - read/getNotebookSummary
+  - read/problems
+  - read/readFile
+  - read/terminalSelection
+  - read/terminalLastCommand
+  - agent/runSubagent
+  - edit/createDirectory
+  - edit/createFile
+  - edit/createJupyterNotebook
+  - edit/editFiles
+  - edit/editNotebook
+  - edit/rename
+  - search/changes
+  - search/codebase
+  - search/fileSearch
+  - search/listDirectory
+  - search/searchResults
+  - search/textSearch
+  - search/usages
+  - web/fetch
+  - web/githubRepo
+  - browser/openBrowserPage
+  - github.vscode-pull-request-github/issue_fetch
+  - github.vscode-pull-request-github/labels_fetch
+  - github.vscode-pull-request-github/notification_fetch
+  - github.vscode-pull-request-github/doSearch
+  - github.vscode-pull-request-github/activePullRequest
+  - github.vscode-pull-request-github/pullRequestStatusChecks
+  - github.vscode-pull-request-github/openPullRequest
+  - todo
 ---
 
 # Health & Fitness Tracker Agent
@@ -104,3 +149,25 @@ export default async function handler(req, context) {
 
 - Netlify deployment issues → suggest `@devops`
 - New Neon schema design → suggest `@data-engineer`
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Health & Fitness-Specific Rules
+
+- **Low-risk domain**: No financial or destructive consequences. Still follow plan → hard stop → "go," but treat it as a lightweight checkpoint.
+- **Netlify function additions**: Include function name, endpoint path, and DB tables touched in the plan block before implementing.
+- **Neon schema changes**: Hard stop — coordinate with `@devops` for migration if needed.
+
+### Cost Profile (gpt-4.1-mini)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.003 |
+| S | $0.005 |
+| M | $0.019 |
+| L | $0.048 |
+| XL | $0.080 |

@@ -1,7 +1,7 @@
 ---
 name: devops
 description: "Use when: deploying to Railway, Netlify, or Docker, configuring environment variables, setting up custom domains on GoDaddy, writing Dockerfiles or docker-compose.yml, debugging deployment failures, or managing GitHub Actions / GHCR."
-model: grok-code-fast-1
+model: gpt-4.1-mini
 tools:
   - vscode/getProjectSetupInfo
   - vscode/installExtension
@@ -190,3 +190,32 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 - App code changes → suggest `@app-builder`
 - Schema migrations → suggest `@data-engineer` or `@app-builder`
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### DevOps-Specific Hard-Stop Rules
+
+The following operations **always** require a hard stop regardless of task size:
+
+- Deleting files, directories, branches, or databases
+- `git reset --hard`, `git push --force`, or any history-rewriting git operation
+- Dropping database tables or truncating production data
+- Removing or overwriting environment variables in Railway or Netlify dashboards
+- Any `rm -rf` command
+- Modifying shared infrastructure used by multiple apps
+
+For all other infra tasks: standard plan block, then proceed on "go."
+
+### Cost Profile (gpt-4.1-mini)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.003 |
+| S | $0.005 |
+| M | $0.019 |
+| L | $0.048 |
+| XL | $0.080 |

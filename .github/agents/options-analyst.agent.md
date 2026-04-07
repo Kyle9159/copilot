@@ -1,7 +1,7 @@
 ---
 name: options-analyst
 description: "Use when: analyzing options trades, extending csp_options_app, working with Greeks, designing CSP/CC/LEAPS strategies, reviewing P&L, working with Schwab API, or evaluating market conditions for the wheel strategy."
-model: gemini-3-pro
+model: claude-sonnet-4-6
 tools:
   - vscode/getProjectSetupInfo
   - vscode/installExtension
@@ -168,3 +168,26 @@ sentiment = get_grok_sentiment_cached(ticker, scenario_description)
 
 - New Flask route → suggest `@app-builder` for code structure review
 - Deploying changes → suggest `@devops`
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Options Analyst-Specific Hard-Stop Rules
+
+- **Live-trading tasks**: ALWAYS hard stop regardless of complexity. Any change that could affect live order generation requires explicit "go" after plan review. No exceptions.
+- **Strategy changes to `csp_options_app`**: Always hard stop — changes to scanner logic, scoring, or position sizing affect real capital.
+- **Paper-trading tasks (S or smaller)**: Show plan block, note "paper-trade only — no live risk," then wait for "go."
+- **Default is paper mode**: Never generate live order logic unless Kyle explicitly says "go live."
+
+### Cost Profile (claude-sonnet-4-6)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.024 |
+| S | $0.045 |
+| M | $0.165 |
+| L | $0.420 |
+| XL | $0.690 |

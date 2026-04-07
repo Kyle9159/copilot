@@ -1,7 +1,7 @@
 ---
 name: job-ops
 description: "Use when: working in the job-ops monorepo, building new job board extractors, improving AI scoring pipeline, adding pipeline features, working with SSE, or extending the orchestrator. Strictly follows AGENTS.md standards."
-model: gpt-5-3-codex
+model: gpt-4.1
 tools:
   - vscode/getProjectSetupInfo
   - vscode/installExtension
@@ -216,3 +216,40 @@ If tests fail with Node ABI mismatch: `npm --workspace orchestrator rebuild bett
 - Scraping new job board → start with `@data-engineer` for extractor prototype
 - Deployment → suggest `@devops`
 - UI changes → suggest `@app-builder`
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Job Ops-Specific Rules
+
+- **Always hard stop**: AGENTS.md standards are strict. A non-compliant route requires a full rewrite — never proceed without plan approval.
+- **CI checks in every plan**: Every plan block must include a final "CI Verification" step with the exact commands to run (see below). This is non-negotiable.
+- **AGENTS.md compliance always in scope**: If the plan touches any route, service, or SSE endpoint, add a step to verify API contract shape, logger usage, and sanitization compliance.
+
+### CI Verification Step (always the final step in every plan)
+
+Add to plan table as:
+
+| N | Run CI-parity checks | — | @self | gpt-4.1 | $0.026 |
+
+Commands that must pass before marking complete:
+
+```bash
+./orchestrator/node_modules/.bin/biome ci .
+npm run check:types:shared
+npm --workspace orchestrator run check:types
+npm --workspace orchestrator run test:run
+```
+
+### Cost Profile (gpt-4.1)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.014 |
+| S | $0.026 |
+| M | $0.094 |
+| L | $0.240 |
+| XL | $0.400 |

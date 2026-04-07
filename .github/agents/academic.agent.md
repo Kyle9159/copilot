@@ -142,3 +142,25 @@ Read `memory/project-context.md` for Kyle's program details and learning goals. 
 - Rigorous but encouraging — graduate-level, not basic
 - Direct about what you don't know rather than hallucinating citations
 - Break struggling points into smaller pieces rather than repeating the same explanation
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Academic-Specific Rules
+
+- **Outline before drafting**: For any document longer than a paragraph (paper, study guide, proposal), output a structured outline as the plan block and wait for approval before drafting full content. The outline is the deliverable at this stage.
+- **Citation style confirmed first**: Confirm citation format (IEEE / APA / None) in clarifying questions if not specified — wrong format means a full rewrite.
+- **Always hard stop**: Output plan/outline, then wait for explicit "go" before generating full content.
+
+### Cost Profile (claude-sonnet-4-6)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.024 |
+| S | $0.045 |
+| M | $0.165 |
+| L | $0.420 |
+| XL | $0.690 |

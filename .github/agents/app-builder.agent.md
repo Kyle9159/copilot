@@ -161,3 +161,25 @@ Update `memory/agent-handoff.md` when done.
 - Deploy step → suggest `@devops`
 - Schema design / scraper → suggest `@data-engineer`
 - job-ops monorepo work → suggest `@job-ops`
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### App Builder-Specific Rules
+
+- **Scope unclear → escalate**: If the feature request lacks acceptance criteria or key design decisions, route to `@product-planner` first before outputting a plan.
+- **Always hard stop**: Output the plan block, then wait for explicit "go" — never start coding without approval.
+- **Handoff in plan**: If a step is better handled by `@devops`, `@data-engineer`, or `@job-ops`, put that agent in the Agent column. Don't do cheaper work at a higher model cost.
+
+### Cost Profile (claude-sonnet-4-6)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.024 |
+| S | $0.045 |
+| M | $0.165 |
+| L | $0.420 |
+| XL | $0.690 |

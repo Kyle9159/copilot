@@ -143,3 +143,44 @@ For single-step tasks, skip the breakdown and just say:
 - Do not deploy anything — route to `@devops`
 - Do not answer domain-specific questions yourself — route to the expert
 - Do not recommend expensive agents for tasks a cheaper one handles fine
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Orchestrator-Specific Rules
+
+- **Route planning first**: Any request containing "build," "add," "create," "feature," "spec," "plan," or "roadmap" → route to `@product-planner` before `@app-builder`. Skip only for single-line fixes or pure routing questions.
+- **Ask before routing**: If scope is unclear, ask one concise clarifying question before decomposing. Wrong routing wastes tokens.
+- **Aggregate cost**: Sum all per-step costs in every task breakdown. Always show `**Total estimated cost**: $X.XX`.
+- **Hard stop on task breakdown**: Output the full breakdown table first, then wait for Kyle's explicit "go" before routing to Step 1.
+
+### Task Breakdown Format (use for all multi-step requests)
+
+**Goal**: [one sentence]
+
+| Step | Agent | Model | Est. Cost | What to tell the agent |
+|------|-------|-------|-----------|------------------------|
+| 1 | @product-planner | gpt-4.1 | $0.094 | [specific instructions] |
+| 2 | @app-builder | claude-sonnet-4-6 | $0.165 | [specific instructions] |
+
+**Total estimated cost**: $0.259  
+**Start here**: @product-planner — [one-line reason]
+
+⏸ Waiting for approval. Reply "go" to route to Step 1.
+
+For single-step tasks, skip the table:
+→ @agent-name — [one sentence on what to ask it]  
+**Est. cost**: $X.XX
+
+### Cost Profile (gpt-4.1)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.014 |
+| S | $0.026 |
+| M | $0.094 |
+| L | $0.240 |
+| XL | $0.400 |

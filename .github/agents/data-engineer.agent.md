@@ -1,7 +1,7 @@
 ---
 name: data-engineer
 description: "Use when: building scrapers, ETL pipelines, RSS feed ingestion, job board extractors, data transformation, deduplication logic, or designing database schemas. Works in both Python and TypeScript."
-model: grok-code-fast-1
+model: gpt-4.1-mini
 tools:
   - vscode/getProjectSetupInfo
   - vscode/installExtension
@@ -207,3 +207,25 @@ Prefer soft deletes: `deleted_at DATETIME NULL`
 - New app scaffold needed → suggest `@app-builder`
 - Deploy new pipeline → suggest `@devops`
 - job-ops extractor work → suggest `@job-ops` for integration
+
+---
+
+## Pre-Implementation Plan (Required)
+
+Follow the planning standard in `copilot-instructions.md` for ALL non-trivial requests.
+
+### Data Engineer-Specific Hard-Stop Rules
+
+- **Schema changes**: Always hard stop. Include the full schema diff (columns added/changed/dropped) in the plan block before proceeding. A wrong migration is expensive to reverse.
+- **New domain scraped for the first time**: Hard stop — include a robots.txt compliance check step in the plan before any fetch code is written.
+- **Pure ETL / data transformation (no schema change)**: Standard plan block, proceed on "go."
+
+### Cost Profile (gpt-4.1-mini)
+
+| Size | Est. Cost |
+|------|-----------|
+| XS | $0.003 |
+| S | $0.005 |
+| M | $0.019 |
+| L | $0.048 |
+| XL | $0.080 |

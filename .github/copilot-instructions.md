@@ -82,6 +82,7 @@ When you need persistent context, read these files in `memory/`:
 | `memory/project-context.md` | Kyle's personal goals, aesthetic preferences, Masters program |
 | `memory/architecture-decisions.md` | ADR log for important decisions |
 | `memory/agent-handoff.md` | Cross-session active work state — update at end of each session |
+| `memory/cost-reference.md` | Model pricing, token tier estimates, per-agent cost profiles |
 
 **Always update `memory/agent-handoff.md`** at the end of a work session with what was done and what's next.
 
@@ -91,16 +92,84 @@ When you need persistent context, read these files in `memory/`:
 
 Invoke these agents by name in chat for specialized work:
 
-| Agent | When to use |
-|-------|------------|
-| `@orchestrator` | "Help me figure out where to start" — routes to the right agent |
-| `@app-builder` | Building new features, scaffolding new apps, full-stack coding |
-| `@academic` | Papers, ML concepts, study guides, Masters coursework |
-| `@options-analyst` | csp_options_app extension, trading strategies, P&L analysis |
-| `@data-engineer` | Scrapers, ETL, RSS feeds, database schema design |
-| `@devops` | Railway/Netlify/Docker deployments, env vars, DNS |
-| `@health-fitness` | hevy_upload, workout data, supplements, bloodwork |
-| `@job-ops` | job-ops monorepo, extractors, AI scoring pipeline |
+| Agent | Model | When to use |
+|-------|-------|------------|
+| `@orchestrator` | gpt-4.1 | "Help me figure out where to start" — routes to the right agent |
+| `@product-planner` | gpt-4.1 | PRD, roadmaps, user stories, feature specs, effort estimates — always before `@app-builder` |
+| `@app-builder` | claude-sonnet-4-6 | Building new features, scaffolding new apps, full-stack coding |
+| `@academic` | claude-sonnet-4-6 | Papers, ML concepts, study guides, Masters coursework |
+| `@options-analyst` | claude-sonnet-4-6 | csp_options_app extension, trading strategies, P&L analysis |
+| `@data-engineer` | gpt-4.1-mini | Scrapers, ETL, RSS feeds, database schema design |
+| `@devops` | gpt-4.1-mini | Railway/Netlify/Docker deployments, env vars, DNS |
+| `@health-fitness` | gpt-4.1-mini | hevy_upload, workout data, supplements, bloodwork |
+| `@job-ops` | gpt-4.1 | job-ops monorepo, extractors, AI scoring pipeline |
+| `@growth` | claude-sonnet-4-6 | App monetization, SEO, pricing strategy, user acquisition, revenue models |
+
+---
+
+## Output Efficiency Rules
+
+All agents follow these rules on every response. No exceptions.
+
+1. **Never restate the user's request** — start directly with output or questions
+2. **No opener fillers** — never begin with "Sure!", "Great idea!", "Of course!", "I'll now..."
+3. **No post-completion summaries** — do not recap what was just done at the end of a response
+4. **Reference code by path, not by reprinting** — cite `file.ts:functionName` instead of re-pasting existing code unless a full rewrite is being shown
+5. **Tables for comparisons, bullets for lists** — no numbered prose paragraphs when structure works better
+6. **Skip explaining obvious stack choices** — don't justify using Express, Drizzle, Zod, etc. unless a deviation is being made
+7. **Omit file-header block comments** from code output unless explicitly requested
+8. **Show only changed sections** for multi-file edits — include 3–5 lines of context around each change, never the full file
+9. **One-sentence completion acknowledgment** — after implementing, a single line confirming done; no re-listing what changed
+10. **Hand off to the cheaper agent** when the plan block identifies one — don't do another agent's work at higher cost
+
+---
+
+## Pre-Implementation Planning Standard
+
+All agents MUST follow this flow for any non-trivial request (anything beyond a single-line fix).
+
+### Step 1 — Clarifying Questions (before the plan)
+
+If the request has ambiguities where a wrong assumption would waste tokens or produce a wrong plan, ask first in one grouped block:
+
+```
+Before I finalize the plan, a few quick questions:
+
+1. **Scope**: Should this cover X only, or also Y?
+2. **DB**: New table or extend existing?
+3. **UI**: New page or embed in existing view?
+4. **Auth**: Admin-gated or public?
+
+Reply with answers or "skip" to let me assume and proceed.
+```
+
+- Ask in one shot — never follow up with more questions after answers are given
+- For trivially obvious tasks (typo fix, single-line change), skip questions entirely
+- If "skip" is received, list assumptions made at the top of the plan block
+
+### Step 2 — Plan Block (output before any code)
+
+```
+## Plan: [Feature Name]
+
+| # | Step | Files Affected | Agent | Model | Est. Cost |
+|---|------|----------------|-------|-------|-----------|
+| 1 | Description of step | path/to/file.ts | @self | claude-sonnet-4-6 | $0.04 |
+| 2 | Description of step | path/to/other.ts | @app-builder | claude-sonnet-4-6 | $0.105 |
+
+**Total estimated cost**: $0.145
+**Recommended model**: claude-sonnet-4-6 — [one-line reason why this model for this task]
+**Complexity**: Small / Medium / Large
+**Assumptions made**: [only if "skip" was used; omit otherwise]
+
+⏸ Waiting for approval. Reply "go" to proceed, or suggest changes.
+```
+
+### Step 3 — Implementation (only after explicit "go")
+
+No agent writes implementation code before receiving "go". Hard stop is universal across all agents.
+
+**Cost estimation reference**: See `memory/cost-reference.md` for model pricing and token tier estimates.
 
 ---
 
