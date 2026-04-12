@@ -92,6 +92,7 @@ New apps are rare — plan features within existing apps first unless there's a 
 | 1 | [step] | @app-builder | claude-sonnet-4-6 | $0.00 |
 
 **Total estimated cost**: $X.XX
+**Est. tokens saved**: ~[N] tokens (~$[X] saved vs. unoptimized output)
 **Complexity**: Small / Medium / Large
 
 ### Definition of Done

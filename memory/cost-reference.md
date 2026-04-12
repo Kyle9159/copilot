@@ -105,6 +105,27 @@ Same as `@data-engineer` above.
 
 ---
 
+## Tokens Saved by Output Efficiency Rules
+
+The 10 Output Efficiency Rules (no request restatement, no opener fillers, no post-completion summaries, reference-by-path instead of code reprinting, changed-sections-only for multi-file edits, no stack justifications, no file-header comments) eliminate output tokens per response. Use these to populate the `Est. tokens saved` line in plan blocks.
+
+### Tokens saved per task size (output tokens eliminated)
+
+| Size | Est. tokens saved | claude-sonnet-4-6 ($15/1M out) | gpt-4.1 ($8/1M out) | gpt-4.1-mini ($1.60/1M out) |
+|------|-------------------|-------------------------------|----------------------|-----------------------------|
+| XS   | ~200              | ~$0.003                       | ~$0.002              | <$0.001                     |
+| S    | ~400              | ~$0.006                       | ~$0.003              | ~$0.001                     |
+| M    | ~3,000            | ~$0.045                       | ~$0.024              | ~$0.005                     |
+| L    | ~8,000            | ~$0.120                       | ~$0.064              | ~$0.013                     |
+| XL   | ~14,000           | ~$0.210                       | ~$0.112              | ~$0.022                     |
+
+**How to use in a plan block**: Identify the task size, find the row, pick the column matching the agent's model. Output:
+```
+**Est. tokens saved**: ~3,000 tokens (~$0.045 saved vs. unoptimized output)
+```
+
+---
+
 ## Quick Cross-Agent Comparison (Medium task)
 
 | Agent | Model | M-task cost |

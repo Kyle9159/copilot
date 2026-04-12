@@ -58,11 +58,30 @@ In-text: `(Smith & Jones, 2017)` or `Smith and Jones (2017) found...`
 - Hedge uncertain claims: *"suggests,"* *"appears to,"* *"may indicate"*
 
 ### AVOID:
-- Contractions (don't → do not)
-- Informal language ("a lot of," "pretty good," "basically")
+- Contractions in formal research papers (don't → do not). Contractions are acceptable in discussion posts, reflective essays, and informal assignments.
+- Informal language ("a lot of," "pretty good," "basically") in formal papers
 - Unsupported superlatives ("best," "state-of-the-art" without citation)
 - Vague quantifiers ("many," "several") — be specific
 - Starting sentences with "Also" or "But"
+
+## Banned Words & Phrases (AI Pattern Avoidance)
+
+Never use these in any essay output. Force synonyms or full rephrasing.
+
+### Banned Words
+delve, tapestry, underscore, pivotal, realm, landscape, robust, leverage, multifaceted, nuanced (as filler), utilize (use "use"), facilitate, elucidate, aforementioned, commenced
+
+### Banned Phrases
+shed light on, it is worth noting, in today's rapidly evolving, a testament to, at the forefront, serves as a, plays a crucial role, in conclusion (find a less mechanical closer)
+
+### Banned Connectors (overuse)
+furthermore, moreover — limit to 1 combined per essay. Never use both.
+
+### Banned Patterns
+- Rule-of-three triplets used as a repeated rhetorical crutch ("X, Y, and Z" more than twice per essay)
+- 3+ consecutive paragraphs starting with the same syntactic structure
+- Opening with a dictionary definition or "Since the dawn of time..."
+- Ending every paragraph with a restatement of its opening sentence
 
 ## Statistics Reporting
 

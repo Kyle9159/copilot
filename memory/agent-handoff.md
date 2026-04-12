@@ -7,25 +7,28 @@
 ---
 
 ## Last Updated
-March 30, 2026 (csp_options_app backtesting shipped; Schwab reauth reminder fixed)
+April 8, 2026 (hevy_upload Kyle adjusted schedule tab shipped)
 
 ## Active Work
 
 ### Current Focus
-csp_options_app Schwab OAuth renewal flow cleanup. Backtesting/recommendation analytics are implemented and pushed; latest local fix updates the Telegram reauth link to the real dashboard HTTPS URL on port 5101 and clarifies that the auth link must be opened on the same Mac running the dashboard.
+hevy_upload workout dashboard routine tab update. The workout schedule now has a dedicated Kyle adjusted schedule panel sourced from the current Hevy routines, with the blend days nested under it.
 
 ### What Was Just Completed
-- Built recommendation backtesting for `csp_options_app` with enriched scanner logging, SQLite snapshot/outcome tracking, and a standalone analysis page plus embedded Analytics sub-tab.
-- Expanded recommendation persistence to include Greeks, IV rank, liquidity, sector, scan time/day, and richer rank metadata.
-- Changed daily recommendation retention from naive per-scan top picks to a true deduped daily Top 10 across same-day scans.
-- Pushed the analytics/backtesting feature set to `main` as commit `eceafda`.
-- Fixed local OAuth reminder messaging in `csp_options_app/dashboard_server.py` so Telegram now points to `https://127.0.0.1:5101/auth/start` instead of the stale `5000` port and warns that the flow must run on the same machine.
-- Reworked `/auth/start` so it redirects the current browser tab directly to Schwab instead of relying on a backend-side browser launch, while the app waits for the local `https://127.0.0.1:8182` callback in the background.
+- Updated the workout sub-nav in `hevy_upload/index.html` so the top-level buttons are Beest's Recommended Schedule, Kyle's Adjusted Schedule, and History.
+- Replaced the orphaned blend-only panel with a real `wkpanel-kyle` panel containing nested `Adjusted Routines` and `Blend Days` sub-tabs.
+- Added the adjusted PUSH, PULL, LEGS, ARMS, and FULL BODY routine tables based on the Hevy API routine JSON shared in chat.
+- Added approximate weekly muscle-group set cards for the adjusted plan.
+- Added `kyle-subpanel` CSS and a dedicated `data-kylepanel` click handler so the nested sub-tabs switch correctly.
+- Verified `hevy_upload/index.html` has no editor errors after the change.
+- Committed and pushed the change to `origin/main` as `ee2fb2a` with message `feat: add Kyle adjusted workout schedule tab`.
+- Applied the follow-up Full Body routine tweak so `Lateral Raise (Machine)` is now 3 sets of 10–15 reps with 2-minute rest, and updated the dependent shoulder/total set summary cards.
+- Committed and pushed the follow-up change to `origin/main` as `8032f00` with message `fix: update full body lateral raise prescription`.
 
 ### Next Steps
-- Restart the `csp_options_app` dashboard so the updated Telegram link and startup URL are live.
-- Trigger a fresh token-expiry reminder or manually open `https://127.0.0.1:5101/auth/start` on the local Mac to verify the new redirect-based auth flow end-to-end.
-- If reauth still fails after opening the correct local link, re-check the Schwab app registration and confirm the redirect URI remains exactly `https://127.0.0.1:8182`.
+- Open the hevy_upload dashboard in the browser and click through Beest, Kyle, Adjusted Routines, Blend Days, and History to confirm the tab behavior feels right on desktop and mobile.
+- Decide whether the weekly set cards should stay as primary/direct-set estimates or be recalculated to count indirect compound contribution the same way the original Beest schedule appears to.
+- If desired, refine any routine labels or note text to match the wording used inside Hevy exactly.
 
 ### What Was Just Completed (March 26, 2026)
 

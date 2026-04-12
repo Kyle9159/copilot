@@ -158,6 +158,7 @@ Reply with answers or "skip" to let me assume and proceed.
 | 2 | Description of step | path/to/other.ts | @app-builder | claude-sonnet-4-6 | $0.105 |
 
 **Total estimated cost**: $0.145
+**Est. tokens saved**: ~3,000 tokens (~$0.045 saved vs. unoptimized output)
 **Recommended model**: claude-sonnet-4-6 — [one-line reason why this model for this task]
 **Complexity**: Small / Medium / Large
 **Assumptions made**: [only if "skip" was used; omit otherwise]

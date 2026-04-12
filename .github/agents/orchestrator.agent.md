@@ -167,6 +167,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 | 2 | @app-builder | claude-sonnet-4-6 | $0.165 | [specific instructions] |
 
 **Total estimated cost**: $0.259  
+**Est. tokens saved**: ~3,000 tokens (~$0.024 saved vs. unoptimized output)
 **Start here**: @product-planner — [one-line reason]
 
 ⏸ Waiting for approval. Reply "go" to route to Step 1.
