@@ -225,7 +225,8 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 
 ### Job Ops-Specific Rules
 
-- **Always hard stop**: AGENTS.md standards are strict. A non-compliant route requires a full rewrite — never proceed without plan approval.
+- **Always hard stop on plan**: AGENTS.md standards are strict. A non-compliant route requires a full rewrite — never proceed without plan approval.
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Wait for another "go" (or "go [model]") before each subsequent step. Never auto-chain.
 - **CI checks in every plan**: Every plan block must include a final "CI Verification" step with the exact commands to run (see below). This is non-negotiable.
 - **AGENTS.md compliance always in scope**: If the plan touches any route, service, or SSE endpoint, add a step to verify API contract shape, logger usage, and sanitization compliance.
 
@@ -233,7 +234,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 
 Add to plan table as:
 
-| N | Run CI-parity checks | — | @self | gpt-4.1 | $0.026 |
+| N | Run CI-parity checks | `biome ci`, `check:types`, `test:run` | @self | gpt-4.1 | $0.026 | ~200 tokens | ~$0.002 |
 
 Commands that must pass before marking complete:
 

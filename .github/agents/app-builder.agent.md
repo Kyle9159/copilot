@@ -171,7 +171,8 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 ### App Builder-Specific Rules
 
 - **Scope unclear → escalate**: If the feature request lacks acceptance criteria or key design decisions, route to `@product-planner` first before outputting a plan.
-- **Always hard stop**: Output the plan block, then wait for explicit "go" — never start coding without approval.
+- **Always hard stop on plan**: Output the plan block, then wait for explicit "go" — never start coding without approval.
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Never auto-chain steps. Wait for another "go" (or "go [model]") before each subsequent step.
 - **Handoff in plan**: If a step is better handled by `@devops`, `@data-engineer`, or `@job-ops`, put that agent in the Agent column. Don't do cheaper work at a higher model cost.
 
 ### Cost Profile (claude-sonnet-4-6)

@@ -219,6 +219,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 - **Schema changes**: Always hard stop. Include the full schema diff (columns added/changed/dropped) in the plan block before proceeding. A wrong migration is expensive to reverse.
 - **New domain scraped for the first time**: Hard stop — include a robots.txt compliance check step in the plan before any fetch code is written.
 - **Pure ETL / data transformation (no schema change)**: Standard plan block, proceed on "go."
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Schema steps especially must each be individually approved.
 
 ### Cost Profile (gpt-4.1-mini)
 

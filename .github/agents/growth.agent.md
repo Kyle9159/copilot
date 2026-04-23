@@ -165,6 +165,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 - **Payment integration (Stripe or similar)**: Always hard stop — any feature touching billing requires explicit "go" after full plan review.
 - **Marketing copy that goes live**: Hard stop — always review copy before it publishes (emails, landing pages, ad text).
 - **SEO structural changes** (URL restructuring, canonical changes, redirects): Hard stop — wrong SEO changes compound negatively over time.
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Wait for another "go" (or "go [model]") before each subsequent step.
 
 ### Cost Profile (claude-sonnet-4-6)
 

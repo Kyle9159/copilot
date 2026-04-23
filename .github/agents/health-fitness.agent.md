@@ -161,6 +161,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 - **Low-risk domain**: No financial or destructive consequences. Still follow plan → hard stop → "go," but treat it as a lightweight checkpoint.
 - **Netlify function additions**: Include function name, endpoint path, and DB tables touched in the plan block before implementing.
 - **Neon schema changes**: Hard stop — coordinate with `@devops` for migration if needed.
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Wait for another "go" (or "go [model]") before each subsequent step.
 
 ### Cost Profile (gpt-4.1-mini)
 

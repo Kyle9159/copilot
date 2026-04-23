@@ -156,24 +156,34 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 - **Ask before routing**: If scope is unclear, ask one concise clarifying question before decomposing. Wrong routing wastes tokens.
 - **Aggregate cost**: Sum all per-step costs in every task breakdown. Always show `**Total estimated cost**: $X.XX`.
 - **Hard stop on task breakdown**: Output the full breakdown table first, then wait for Kyle's explicit "go" before routing to Step 1.
+- **Per-step routing gate**: After "go", route to Step 1 and wait for it to complete. Then stop with the step gate format from `copilot-instructions.md` before routing to the next agent/step. Never auto-chain agent handoffs.
 
 ### Task Breakdown Format (use for all multi-step requests)
 
 **Goal**: [one sentence]
 
-| Step | Agent | Model | Est. Cost | What to tell the agent |
-|------|-------|-------|-----------|------------------------|
-| 1 | @product-planner | gpt-4.1 | $0.094 | [specific instructions] |
-| 2 | @app-builder | claude-sonnet-4-6 | $0.165 | [specific instructions] |
+| # | Step | Detail | Agent | Model | Est. Cost | Token Savings | Cost Savings |
+|---|------|--------|-------|-------|-----------|---------------|--------------|
+| 1 | Step title | What specifically to do (sub-tasks, files, decisions) | @product-planner | gpt-4.1 | $0.094 | ~400 tokens | ~$0.003 |
+| 2 | Step title | What specifically to do (sub-tasks, files, decisions) | @app-builder | claude-sonnet-4-6 | $0.165 | ~3,000 tokens | ~$0.045 |
 
-**Total estimated cost**: $0.259  
-**Est. tokens saved**: ~3,000 tokens (~$0.024 saved vs. unoptimized output)
+**Total estimated cost**: $0.259
+**Total tokens saved**: ~3,400 tokens (~$0.048 saved vs. unoptimized output)
+**Recommended model**: gpt-4.1 — [one-line reason; call out any per-step downgrade opportunities]
+**Complexity**: Small / Medium / Large
 **Start here**: @product-planner — [one-line reason]
 
 ⏸ Waiting for approval. Reply "go" to route to Step 1.
 
+After each step is routed and completed, hard stop:
+```
+⏸ Step [N] of [Total] complete.
+→ Next: Step [N+1] — [step title] | Agent: @agent | Model: [model] | Est. Cost: $X.XX
+Reply "go" to continue, or specify a different model (e.g., "go gpt-4.1-mini").
+```
+
 For single-step tasks, skip the table:
-→ @agent-name — [one sentence on what to ask it]  
+→ @agent-name — [one sentence on what to ask it]
 **Est. cost**: $X.XX
 
 ### Cost Profile (gpt-4.1)

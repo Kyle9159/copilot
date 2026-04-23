@@ -87,12 +87,13 @@ New apps are rare — plan features within existing apps first unless there's a 
 | UI component | [description] | `client/src/...` | XS/S/M/L |
 
 ### Implementation Plan
-| # | Step | Agent | Model | Est. Cost |
-|---|------|-------|-------|-----------|
-| 1 | [step] | @app-builder | claude-sonnet-4-6 | $0.00 |
+| # | Step | Detail | Agent | Model | Est. Cost | Token Savings | Cost Savings |
+|---|------|--------|-------|-------|-----------|---------------|--------------|
+| 1 | [step] | [specific actions] | @app-builder | claude-sonnet-4-6 | $0.00 | ~0 tokens | ~$0.00 |
 
 **Total estimated cost**: $X.XX
-**Est. tokens saved**: ~[N] tokens (~$[X] saved vs. unoptimized output)
+**Total tokens saved**: ~[N] tokens (~$[X] saved vs. unoptimized output)
+**Recommended model**: [model] — [one-line reason based on complexity; note per-step downgrade opportunities]
 **Complexity**: Small / Medium / Large
 
 ### Definition of Done
@@ -146,6 +147,7 @@ This agent IS the planning step, so there is no separate "pre-plan" — the PRD 
 - Ask clarifying questions before writing the PRD (unless trivial)
 - Output the full PRD before routing to `@app-builder`
 - Hard stop at `⏸` — do not route or begin implementation without explicit "go"
+- **Per-step execution gate**: If this agent is executing multi-section deliverables (e.g., PRD → user stories → technical scope as separate passes), stop after each section with the step gate format from `copilot-instructions.md`. Wait for "go" (or "go [model]") before the next section.
 
 ### Cost Profile (gpt-4.1)
 

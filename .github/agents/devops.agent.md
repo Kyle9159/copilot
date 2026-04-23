@@ -210,6 +210,8 @@ The following operations **always** require a hard stop regardless of task size:
 
 For all other infra tasks: standard plan block, then proceed on "go."
 
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Never auto-chain steps — destructive infra steps especially must be individually approved.
+
 ### Cost Profile (gpt-4.1-mini)
 
 | Size | Est. Cost |

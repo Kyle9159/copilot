@@ -181,6 +181,7 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 - **Strategy changes to `csp_options_app`**: Always hard stop — changes to scanner logic, scoring, or position sizing affect real capital.
 - **Paper-trading tasks (S or smaller)**: Show plan block, note "paper-trade only — no live risk," then wait for "go."
 - **Default is paper mode**: Never generate live order logic unless Kyle explicitly says "go live."
+- **Per-step execution gate**: After "go", execute **only** the current step, then stop with the step gate format from `copilot-instructions.md`. Live-risk steps require a separate "go" — never auto-chain them.
 
 ### Cost Profile (claude-sonnet-4-6)
 

@@ -42,6 +42,12 @@ fitbit_activities     (id, date, steps, calories, active_min, weight_lbs)
 - Mobile-first: used from iPhone at the gym
 - Accordion pattern for grouping (existing pattern throughout)
 
+## Hevy Exercise IDs
+
+**Read this file first** when working with routines, seed scripts, or adding/swapping exercises:
+`memory/hevy-exercise-ids.md` — Complete table of all exercise template IDs, organized by routine.
+Saves multiple grep searches across seed scripts. Add new IDs here when discovered.
+
 ## Adding a New Netlify Function
 ```javascript
 // netlify/functions/feature.mjs

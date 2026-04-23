@@ -7,28 +7,89 @@
 ---
 
 ## Last Updated
-April 8, 2026 (hevy_upload Kyle adjusted schedule tab shipped)
+April 17, 2026
 
 ## Active Work
 
 ### Current Focus
-hevy_upload workout dashboard routine tab update. The workout schedule now has a dedicated Kyle adjusted schedule panel sourced from the current Hevy routines, with the blend days nested under it.
+`day_trader` — Alpaca paper trading wired up and working. Ready to run during market hours.
 
-### What Was Just Completed
-- Updated the workout sub-nav in `hevy_upload/index.html` so the top-level buttons are Beest's Recommended Schedule, Kyle's Adjusted Schedule, and History.
-- Replaced the orphaned blend-only panel with a real `wkpanel-kyle` panel containing nested `Adjusted Routines` and `Blend Days` sub-tabs.
-- Added the adjusted PUSH, PULL, LEGS, ARMS, and FULL BODY routine tables based on the Hevy API routine JSON shared in chat.
-- Added approximate weekly muscle-group set cards for the adjusted plan.
-- Added `kyle-subpanel` CSS and a dedicated `data-kylepanel` click handler so the nested sub-tabs switch correctly.
-- Verified `hevy_upload/index.html` has no editor errors after the change.
-- Committed and pushed the change to `origin/main` as `ee2fb2a` with message `feat: add Kyle adjusted workout schedule tab`.
-- Applied the follow-up Full Body routine tweak so `Lateral Raise (Machine)` is now 3 sets of 10–15 reps with 2-minute rest, and updated the dependent shoulder/total set summary cards.
-- Committed and pushed the follow-up change to `origin/main` as `8032f00` with message `fix: update full body lateral raise prescription`.
+### What Was Completed This Session (April 17)
+1. **Sizing backtest (aggressive params)** — 2%/10%/3 vs conservative 1%/5%/2:
+   - P&L: $18,025 vs $7,403 (2.4×) over 8 years on $50K
+   - Sharpe improved: 3.22 vs 3.02 (more concurrent slots = more trades)
+   - MaxDD only increased from 1.3% → 2.1% — still very conservative
+   - `.env` left at conservative defaults for paper trading start
+2. **Alpaca paper trading wired**:
+   - `config.py` — added `AlpacaConfig` (pydantic-settings, `ALPACA_` prefix)
+   - `live/alpaca_executor.py` — NEW: market orders, position close, `close_all_positions()`, account info
+   - `live/alpaca_stream.py` — NEW: real-time 1min bars via Alpaca websocket, aggregated to 5min + VWAP
+   - `run_live.py` — `--alpaca` flag, all 3 strategies wired (ORB, VWAP reversion, First Hour Breakout)
+   - `live/scheduler.py` — `fhb_active` property + 10:30 AM FHB activation job, daily flag reset in pre-market
+   - Smoke tested: $100K paper equity, $200K buying power, ACTIVE
+3. **Day Trader dashboard HTTP fix** — Brave Browser can't trust macOS keychain certs
+   - `dashboard_server.py` — removed SSL, serves plain HTTP on port 5001
+   - `apps.config.js` — URL updated to `http://127.0.0.1:5001`
+   - Dashboard confirmed working in Brave Browser
 
 ### Next Steps
-- Open the hevy_upload dashboard in the browser and click through Beest, Kyle, Adjusted Routines, Blend Days, and History to confirm the tab behavior feels right on desktop and mobile.
-- Decide whether the weekly set cards should stay as primary/direct-set estimates or be recalculated to count indirect compound contribution the same way the original Beest schedule appears to.
-- If desired, refine any routine labels or note text to match the wording used inside Hevy exactly.
+1. **Run paper trading during market hours**: `python run_live.py --alpaca`
+2. **Monitor for 2-4 weeks** — look for slippage vs backtest, signal quality
+3. **When comfortable**, bump sizing to aggressive params (2%/10%/3) in `.env`:
+   ```
+   DT_RISK_PER_TRADE_PCT=0.02
+   DT_MAX_DAILY_LOSS_PCT=0.04
+   DT_MAX_POSITION_PCT=0.10
+   DT_MAX_CONCURRENT_TRADES=3
+   ```
+4. **Go live on Alpaca** once paper trading results align with backtest expectations
+
+### What Was Completed This Session (April 14)
+1. **Simulator optimization** — 40× speedup via pre-grouped DataFrames in simulator
+2. **ATR look-ahead bug fixes** — orb.py and vwap_reversion.py now use only past data for ATR
+3. **Strategy culling** — Power Hour (PF 0.45) and VWAP Breakout (PF 0.01) retired → 3 active: orb, vwap_reversion, first_hour_breakout
+4. **Alpaca API integration** — built `data/fetchers/alpaca_intraday.py` to backfill 2018-2021 data (Polygon plan doesn't cover pre-2021)
+   - 3.94M bars fetched across 8 symbols in ~6 min
+   - Total DB: 12.5M 1-minute bars (2018-04-02 → 2026-04-14)
+5. **8-year comparison (2018-2026)** — Portfolio: 3,070 trades, 55.6% WR, PF 1.50, Sharpe 3.02, CAGR 2.8%, MaxDD 1.3%, P&L $7,403
+6. **Walk-forward bugs fixed**:
+   - `walk_forward_backtest()` now passes `multi_tf_data` to simulator
+   - `_compute_metrics()` now resamples equity curve to daily before computing Sharpe
+   - Risk-free rate changed from 4% to 0% (raw Sharpe, appropriate for day trades with no overnight exposure)
+7. **Deep walk-forward validation (2018-2026)** — 3 rolling windows (5yr train + 1yr test):
+   - Window 1: train Sharpe 1.54, test 717 trades
+   - Window 2: train Sharpe 2.06, test 661 trades
+   - Window 3: train Sharpe 2.17, test 643 trades
+   - **OOS aggregate: 2,021 trades, 56.3% WR, PF 1.58, Sharpe 3.78, CAGR 3.3%, MaxDD 0.8%**
+   - Train Sharpe improves with more recent data → no degradation
+   - OOS Sharpe exceeds all train Sharpes → no overfit
+
+### Key Results Summary
+
+| Test | Period | Trades | WR | PF | Sharpe | CAGR | MaxDD | P&L |
+|------|--------|--------|-----|-----|--------|------|-------|-----|
+| Full comparison | 2018-2026 | 3,070 | 55.6% | 1.50 | 3.02 | 2.8% | 1.3% | $7,403 |
+| Walk-forward OOS | 2023-2026 | 2,021 | 56.3% | 1.58 | 3.78 | 3.3% | 0.8% | $5,165 |
+| Prior comparison | 2022-2026 | 2,540 | 56.7% | 1.57 | 3.35 | 3.1% | 1.3% | $6,851 |
+
+### Files Modified This Session
+- `backtest/simulator.py` — pre-grouped DataFrames (40× speedup)
+- `strategies/orb.py` — ATR look-ahead fix
+- `strategies/vwap_reversion.py` — ATR look-ahead fix
+- `strategies/power_hour.py` — RETIRED
+- `strategies/vwap_breakout.py` — RETIRED
+- `data/fetchers/alpaca_intraday.py` — NEW: Alpaca historical data fetcher
+- `data/loader.py` — Alpaca backfill wired into ensure_data()
+- `requirements.txt` — added alpaca-py>=0.43
+- `.env` — added ALPACA_API_KEY + ALPACA_SECRET_KEY
+- `backtest/walk_forward.py` — multi_tf_data passthrough, daily resample Sharpe fix, risk_free 0%
+- `run_comparison.py` — updated active strategy roster
+
+### Next Steps (Future Sessions)
+1. **Live trading prep** — the strategies are validated; next is paper trading integration
+2. Consider increasing position sizing (currently 1% risk per trade) now that 8yr validation is solid
+3. Add drawdown analysis report for COVID crash period specifically (Mar 2020)
+4. Consider adding walk-forward to run_comparison.py for one-command validation
 
 ### What Was Just Completed (March 26, 2026)
 

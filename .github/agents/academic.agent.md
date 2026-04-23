@@ -228,7 +228,8 @@ Follow the planning standard in `copilot-instructions.md` for ALL non-trivial re
 
 - **Outline before drafting**: For any document longer than a paragraph (paper, study guide, proposal), output a structured outline as the plan block and wait for approval before drafting full content. The outline is the deliverable at this stage.
 - **Citation style confirmed first**: Confirm citation format (IEEE / APA / None) in clarifying questions if not specified — wrong format means a full rewrite.
-- **Always hard stop**: Output plan/outline, then wait for explicit "go" before generating full content.
+- **Always hard stop on plan**: Output plan/outline, then wait for explicit "go" before generating full content.
+- **Per-step execution gate**: After "go", execute **only** the current step (e.g., outline, introduction, methodology), then stop with the step gate format from `copilot-instructions.md`. Wait for another "go" (or "go [model]") before each subsequent section.
 
 ### Cost Profile (claude-sonnet-4-6)
 

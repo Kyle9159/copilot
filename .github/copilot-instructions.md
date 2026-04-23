@@ -152,23 +152,44 @@ Reply with answers or "skip" to let me assume and proceed.
 ```
 ## Plan: [Feature Name]
 
-| # | Step | Files Affected | Agent | Model | Est. Cost |
-|---|------|----------------|-------|-------|-----------|
-| 1 | Description of step | path/to/file.ts | @self | claude-sonnet-4-6 | $0.04 |
-| 2 | Description of step | path/to/other.ts | @app-builder | claude-sonnet-4-6 | $0.105 |
+| # | Step | Implementation Detail | Files Affected | Agent | Model | Est. Cost | Token Savings | Cost Savings |
+|---|------|-----------------------|----------------|-------|-------|-----------|---------------|--------------|
+| 1 | Step title | Specific actions: e.g. "Add X column, update Y function, wire Z hook" | path/to/file.ts | @self | claude-sonnet-4-6 | $0.045 | ~400 tokens | ~$0.006 |
+| 2 | Step title | Specific actions: e.g. "Create route, validate with Zod, return { ok, data }" | path/to/other.ts | @app-builder | claude-sonnet-4-6 | $0.165 | ~3,000 tokens | ~$0.045 |
 
-**Total estimated cost**: $0.145
-**Est. tokens saved**: ~3,000 tokens (~$0.045 saved vs. unoptimized output)
-**Recommended model**: claude-sonnet-4-6 — [one-line reason why this model for this task]
+**Total estimated cost**: $0.210
+**Total tokens saved**: ~3,400 tokens (~$0.051 saved vs. unoptimized output)
+**Recommended model**: claude-sonnet-4-6 — [one-line reason based on complexity, e.g. "multi-file feature with deep stack context requires full reasoning depth; consider gpt-4.1-mini for XS steps"]
 **Complexity**: Small / Medium / Large
 **Assumptions made**: [only if "skip" was used; omit otherwise]
 
-⏸ Waiting for approval. Reply "go" to proceed, or suggest changes.
+⏸ Waiting for approval. Reply "go" to begin Step 1, or suggest changes.
 ```
 
-### Step 3 — Implementation (only after explicit "go")
+**Plan rules**:
+- `Implementation Detail` must be specific enough to act on — not a vague one-liner. List the concrete actions for each step (sub-tasks, schema changes, functions to create, etc.).
+- `Token Savings` and `Cost Savings` per step come from the task size tier table in `memory/cost-reference.md` matched to the step's estimated output size.
+- `Model` per step should reflect the complexity of that step specifically — a cheap step in an otherwise complex plan can use `gpt-4.1-mini` to save cost.
+- `Recommended model` line should justify the overall choice and call out any per-step downgrade opportunities.
 
-No agent writes implementation code before receiving "go". Hard stop is universal across all agents.
+### Step 3 — Implementation (step-by-step, one at a time)
+
+After receiving "go":
+1. Execute **only** the current step — implement it completely.
+2. After that step is done, output a single-line completion note.
+3. Hard stop with the step gate:
+
+```
+⏸ Step [N] of [Total] complete.
+→ Next: Step [N+1] — [step title] | Model: [model from plan] | Est. Cost: $X.XX
+Reply "go" to continue, or specify a different model (e.g., "go gpt-4.1-mini").
+```
+
+4. Wait for explicit "go" or "go [model-name]" before proceeding to the next step.
+5. If a different model is specified, acknowledge it and proceed with that model for that step.
+6. Repeat through all steps until the plan is complete.
+
+**Never auto-chain steps.** Each step is a separate execution gate. The user may swap models between steps to optimize cost vs. quality.
 
 **Cost estimation reference**: See `memory/cost-reference.md` for model pricing and token tier estimates.
 
