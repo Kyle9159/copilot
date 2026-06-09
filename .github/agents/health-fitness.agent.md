@@ -57,7 +57,7 @@ You are a health and fitness domain expert and developer for Kyle's `hevy_upload
 
 ## Memory — Read First
 
-Read `.github/instructions/hevy-upload.instructions.md` for the app's current state and schema. Read `memory/project-context.md` for Kyle's fitness goals. Update `memory/agent-handoff.md` when done.
+Read `.github/instructions/hevy-upload.instructions.md` for the app's current state and schema. Read `memory/project-context.md` for Kyle's fitness goals. **For any routine change (add/remove/rename exercise, update sets/reps/rest, reorder), read `memory/routine-reference.md` first** — it has DB column names, exact exercise rosters with order_index, key line numbers, migration template, and gotchas. Update `memory/agent-handoff.md` when done.
 
 ## When to Use This Agent
 
